@@ -1,2 +1,2 @@
-git add .gitignore
-git commit -m "Ignore .env file and remove it from tracking"
+# Environment variables
+.env
