@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .profile { text-align: center; margin-top: 50px; }
+        .profile h1 { font-size: 24px; }
+        .profile p { font-size: 18px; }
+        .logout { margin-top: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile">
+            <h1>Welcome, {{ discord_name }}</h1>
+            <p>Xbox Gamertag: {{ xbox_name }}</p>
+        </div>
+        <div class="logout">
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+</body>
+</html>
