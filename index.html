@@ -4,58 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator</title>
-    <script src="https://cdn.jsdelivr.net/npm/qrcode"></script>
-    <style>
-        #qrCode {
-            margin-top: 20px;
-        }
-        #generateBtn:disabled {
-            background-color: #ccc;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>QR Code Generator</h1>
-    <label for="linkInput">Enter URL:</label>
-    <input type="text" id="linkInput" placeholder="Enter URL here" />
-    <button id="generateBtn" onclick="generateQRCode()">Convert to QR Code</button>
-    <div id="qrCode"></div>
-
-    <script>
-        let lastGenerated = 0; 
-        const cooldownTime = 10000; 
-
-        function generateQRCode() {
-            const now = Date.now();
-            if (now - lastGenerated < cooldownTime) {
-                alert("Please wait before generating another QR code.");
-                return; 
-            }
-
-            lastGenerated = now;  
-            const inputLink = document.getElementById("linkInput").value;
-
-            if (inputLink.trim() === "") {
-                alert("Please enter a URL.");
-                return;
-            }
-
-            document.getElementById("generateBtn").disabled = true; // 
-
-            QRCode.toCanvas(document.getElementById("qrCode"), inputLink, function (error) {
-                if (error) {
-                    console.error(error);
-                    alert("Failed to generate QR code.");
-                } else {
-                    document.getElementById("generateBtn").disabled = false; // Re-enable the button after QR is generated
-                }
-            });
-
-
-            setTimeout(() => {
-                document.getElementById("generateBtn").disabled = false;
-            }, cooldownTime);
-        }
-    </script>
+    <div class="container">
+        <h1>QR Code Generator</h1>
+        <input type="text" id="linkInput" placeholder="Enter URL here" />
+        <button id="generateBtn" onclick="generateQRCode()">Convert to QR Code</button>
+        <div id="qrCode"></div>
+        <button id="downloadBtn" style="display: none;" onclick="downloadQRCode()">Download QR Code</button>
+        <div id="errorMessage" class="error-message" style="display: none;">Please wait 10 seconds before generating another QR code.</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode"></script>
+    <script src="script.js"></script>
 </body>
 </html>
