@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode"></script>
+    <style>
+        #qrCode {
+            margin-top: 20px;
+        }
+        #generateBtn:disabled {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Generator</h1>
+    <label for="linkInput">Enter URL:</label>
+    <input type="text" id="linkInput" placeholder="Enter URL here" />
+    <button id="generateBtn" onclick="generateQRCode()">Convert to QR Code</button>
+    <div id="qrCode"></div>
+
+    <script>
+        let lastGenerated = 0;  // To track the last time a QR code was generated
+        const cooldownTime = 10000; // 10 seconds cooldown
+
+        function generateQRCode() {
+            const now = Date.now();
+            if (now - lastGenerated < cooldownTime) {
+                alert("Please wait before generating another QR code.");
+                return; // Exit if the cooldown period hasn't passed
+            }
+
+            lastGenerated = now;  // Update the last generated time
+            const inputLink = document.getElementById("linkInput").value;
+
+            if (inputLink.trim() === "") {
+                alert("Please enter a URL.");
+                return;
+            }
+
+            document.getElementById("generateBtn").disabled = true; // Disable the button
+
+            // Generate QR Code
+            QRCode.toCanvas(document.getElementById("qrCode"), inputLink, function (error) {
+                if (error) {
+                    console.error(error);
+                    alert("Failed to generate QR code.");
+                } else {
+                    document.getElementById("generateBtn").disabled = false; // Re-enable the button after QR is generated
+                }
+            });
+
+            // Re-enable the button after cooldown period
+            setTimeout(() => {
+                document.getElementById("generateBtn").disabled = false;
+            }, cooldownTime);
+        }
+    </script>
+</body>
+</html>
