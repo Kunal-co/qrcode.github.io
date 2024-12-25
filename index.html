@@ -22,17 +22,17 @@
     <div id="qrCode"></div>
 
     <script>
-        let lastGenerated = 0;  // To track the last time a QR code was generated
-        const cooldownTime = 10000; // 10 seconds cooldown
+        let lastGenerated = 0; 
+        const cooldownTime = 10000; 
 
         function generateQRCode() {
             const now = Date.now();
             if (now - lastGenerated < cooldownTime) {
                 alert("Please wait before generating another QR code.");
-                return; // Exit if the cooldown period hasn't passed
+                return; 
             }
 
-            lastGenerated = now;  // Update the last generated time
+            lastGenerated = now;  
             const inputLink = document.getElementById("linkInput").value;
 
             if (inputLink.trim() === "") {
@@ -40,9 +40,8 @@
                 return;
             }
 
-            document.getElementById("generateBtn").disabled = true; // Disable the button
+            document.getElementById("generateBtn").disabled = true; // 
 
-            // Generate QR Code
             QRCode.toCanvas(document.getElementById("qrCode"), inputLink, function (error) {
                 if (error) {
                     console.error(error);
@@ -52,7 +51,7 @@
                 }
             });
 
-            // Re-enable the button after cooldown period
+
             setTimeout(() => {
                 document.getElementById("generateBtn").disabled = false;
             }, cooldownTime);
