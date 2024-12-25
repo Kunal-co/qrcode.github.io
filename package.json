@@ -4,12 +4,12 @@
   "description": "A simple QR code generator website",
   "main": "index.html",
   "scripts": {
-    "start": "live-server",  // Run this for local development using `npm start`
+    "start": "live-server",  
     "build": "echo 'No build step required'"
   },
-  "author": "Your Name",
+  "author": "kcc",
   "license": "MIT",
   "dependencies": {
-    "live-server": "^1.2.1"  // Optional, for running locally
+    "live-server": "^1.2.1" 
   }
 }
