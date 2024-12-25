@@ -1,50 +1,43 @@
-let lastGenerateTime = 0;
+document.getElementById('generateBtn').addEventListener('click', function () {
+    const linkInput = document.getElementById('link').value;
+    if (linkInput) {
+        // Disable the button while generating
+        document.getElementById('generateBtn').disabled = true;
 
-function generateQRCode() {
-    const linkInput = document.getElementById('linkInput').value;
-    const qrCodeContainer = document.getElementById('qrCode');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const errorMessage = document.getElementById('errorMessage');
+        // Set a timeout of 2 seconds to simulate the cooldown
+        setTimeout(() => {
+            // Generate the QR code
+            generateQRCode(linkInput);
 
-    const currentTime = Date.now();
-
-    if (currentTime - lastGenerateTime < 10000) {
-        errorMessage.style.display = 'block';
-        return;
+            // Enable the button again
+            document.getElementById('generateBtn').disabled = false;
+        }, 2000);  // 2 seconds cooldown
     }
+});
 
-    errorMessage.style.display = 'none';
+function generateQRCode(link) {
+    const qrCodeContainer = document.getElementById('qrCodeContainer');
+    qrCodeContainer.innerHTML = ''; // Clear any previous QR codes
 
-    if (linkInput.trim() === '') {
-        alert('Please enter a URL');
-        return;
-    }
-
-    qrCodeContainer.innerHTML = '';
-
-    QRCode.toDataURL(linkInput, { errorCorrectionLevel: 'H' }, function (err, url) {
-        if (err) {
-            console.error(err);
+    // Create QR code
+    QRCode.toCanvas(document.createElement('canvas'), link, function (error, canvas) {
+        if (error) {
+            console.error(error);
             return;
         }
+        
+        // Append QR code to the container
+        qrCodeContainer.appendChild(canvas);
 
-        const img = document.createElement('img');
-        img.src = url;
-        qrCodeContainer.appendChild(img);
-
+        // Show the download button
+        const downloadBtn = document.getElementById('downloadBtn');
         downloadBtn.style.display = 'inline-block';
-        downloadBtn.setAttribute('data-url', url);
-
-        lastGenerateTime = currentTime;
+        downloadBtn.onclick = function () {
+            const dataUrl = canvas.toDataURL();
+            const a = document.createElement('a');
+            a.href = dataUrl;
+            a.download = 'qr-code.png';
+            a.click();
+        };
     });
-}
-
-function downloadQRCode() {
-    const downloadBtn = document.getElementById('downloadBtn');
-    const url = downloadBtn.getAttribute('data-url');
-
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'qrcode.png';
-    link.click();
 }
